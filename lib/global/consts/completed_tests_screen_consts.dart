@@ -1,0 +1,1 @@
+String COMPLETED_TESTS_CONST_APPBAR_TITLE = "Completed tests";

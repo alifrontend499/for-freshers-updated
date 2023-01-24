@@ -1,0 +1,1 @@
+String VIEW_ALL_TESTS_CONST_APPBAR_TITLE(String testType) => "All $testType tests";

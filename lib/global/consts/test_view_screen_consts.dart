@@ -1,0 +1,15 @@
+String TEST_VIEW_SCREEN_CONST_APPBAR_ACTION_CANCEL_TEST = "Cancel";
+String TEST_VIEW_SCREEN_CONST_BUTTON_SUBMIT_TEXT = "Submit";
+String TEST_VIEW_SCREEN_CONST_BUTTON_NEXT_TEXT = "Next";
+
+String TEST_VIEW_TEST_RESULT_SCREEN_CONST_APPBAR_TITLE = "Test Result";
+String TEST_VIEW_TEST_RESULT_SCREEN_CONST_HEADING1 = "You have completed the test with";
+String TEST_VIEW_TEST_RESULT_SCREEN_CONST_HEADING2(String percentage) => "Total score of $percentage%";
+String TEST_VIEW_TEST_RESULT_SCREEN_CONST_RIGHT_QUESTIONS_TEXT = "Questions right";
+String TEST_VIEW_TEST_RESULT_SCREEN_CONST_TEST_PASSED_TEXT = "PASSED";
+String TEST_VIEW_TEST_RESULT_SCREEN_CONST_TEST_FAILED_TEXT = "FAILED";
+String TEST_VIEW_TEST_RESULT_SCREEN_CONST_TEST_PASSED_MSG(String percentage) => 'You have passed the test with $percentage% total score.';
+String TEST_VIEW_TEST_RESULT_SCREEN_CONST_TEST_FAILED_MSG(String passPercentage) => 'You should score at least $passPercentage percent to pass the test. you can always try again.';
+String TEST_VIEW_TEST_RESULT_SCREEN_CONST_TEST_SUMMARY_TEXT = "View Test Summary";
+String TEST_VIEW_TEST_RESULT_SCREEN_CONST_RETRY_TEST_BUTTON_TEXT = "Retry Test";
+String TEST_VIEW_TEST_RESULT_SCREEN_CONST_EXPLORE_OTHER_TESTS_TEXT = "Explore Other Tests";
