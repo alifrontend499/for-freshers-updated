@@ -11,6 +11,8 @@ import 'package:forfreshers_app/screens/test_view/test_view_screen.dart';
 import 'package:forfreshers_app/screens/completed_tests/completed_tests_screen.dart';
 import 'package:forfreshers_app/screens/auth/login/login_screen.dart';
 import 'package:forfreshers_app/screens/user_profile/user_profile_screen.dart';
+import 'package:forfreshers_app/screens/auth/signup/signup_screen.dart';
+import 'package:forfreshers_app/screens/auth/forgot_password/forgot_password_screen.dart';
 
 
 Route<dynamic> generatedRoutes(RouteSettings settings) {
@@ -35,6 +37,12 @@ Route<dynamic> generatedRoutes(RouteSettings settings) {
 
     case loginScreenRoute:
       return MaterialPageRoute(builder: (context) => const LoginScreen());
+
+    case signUpScreenRoute:
+      return MaterialPageRoute(builder: (context) => const SignUpScreen());
+
+    case forgotPasswordScreenRoute:
+      return MaterialPageRoute(builder: (context) => const ForgotPasswordScreen());
 
     default:
       return MaterialPageRoute(builder: (context) => const HomeScreen());

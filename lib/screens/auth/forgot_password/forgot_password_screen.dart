@@ -10,7 +10,7 @@ import 'package:forfreshers_app/global/settings/app_settings.dart';
 import 'package:forfreshers_app/global/styles/app_styles.dart';
 
 // -- screens
-import 'package:forfreshers_app/screens/auth/login/widgets/header_widget.dart';
+import 'package:forfreshers_app/screens/auth/forgot_password/widgets/header_widget.dart';
 import 'package:forfreshers_app/screens/auth/styles/screen_styles.dart';
 
 // -- utilities
@@ -23,18 +23,16 @@ import 'package:forfreshers_app/utilities/routing/routing_consts.dart';
 // -- packages
 import 'package:http/http.dart' as http;
 
-class LoginScreen extends StatefulWidget {
-  const LoginScreen({Key? key}) : super(key: key);
+class ForgotPasswordScreen extends StatefulWidget {
+  const ForgotPasswordScreen({Key? key}) : super(key: key);
 
   @override
-  State<LoginScreen> createState() => _LoginScreenState();
+  State<ForgotPasswordScreen> createState() => _ForgotPasswordScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
   final formKey = GlobalKey<FormState>();
-  String fieldEmail = 'aman@gmail.com';
-  String fieldPassword = '123456';
-  bool isPasswordVisible = true;
+  String fieldEmail = '';
   bool submitBtnLoading = false;
 
   void onSubmit() async {
@@ -56,22 +54,13 @@ class _LoginScreenState extends State<LoginScreen> {
             'Content-Type': 'application/json; charset=UTF-8',
           },
           body: jsonEncode(
-            <String, String>{'email': fieldEmail, 'password': fieldPassword},
+            <String, String>{'email': fieldEmail},
           ),
         );
         final responseStatusCode = response.statusCode;
         final responseBodyJson = response.body;
         final responseBody = jsonDecode(responseBodyJson);
         if (responseStatusCode == 200) {
-          final responseData = responseBody['data'];
-          final jsonData = convertUserDataFromApiJson(responseData);
-          final AuthUserModel authUserToStore =
-              AuthUserModel.fromJson(jsonData);
-          // setting auth user
-          setUserDetailsHelper(authUserToStore);
-          // setting user token
-          setUserTokenHelper(authUserToStore.userToken);
-
           if (mounted) {
             // showing error
             ScaffoldMessenger.of(context).showSnackBar(
@@ -138,9 +127,6 @@ class _LoginScreenState extends State<LoginScreen> {
                               children: [
                                 fieldEmailWidget(),
                                 const SizedBox(height: 20),
-                                fieldPasswordWidget(),
-                                const SizedBox(height: 15),
-                                forgotPasswordWidget(),
                               ],
                             ),
                           ),
@@ -179,12 +165,12 @@ class _LoginScreenState extends State<LoginScreen> {
                       strokeWidth: 2,
                     ),
                   )
-                : Text(AUTH_CONST_LOGIN_PAGE_SUBMIT_BUTTON),
+                : Text(AUTH_CONST_FORGOT_PASSWORD_PAGE_SUBMIT_BUTTON),
           ),
           const SizedBox(height: 15),
           InkWell(
             onTap: () => !submitBtnLoading
-                ? Navigator.pushNamed(context, signUpScreenRoute)
+                ? Navigator.pushNamed(context, loginScreenRoute)
                 : false,
             highlightColor: appColorInkWellHighlight,
             borderRadius: BorderRadius.circular(5),
@@ -194,29 +180,12 @@ class _LoginScreenState extends State<LoginScreen> {
                 horizontal: 8,
               ),
               child: Text(
-                AUTH_CONST_NO_ACCOUNT,
+                AUTH_CONST_ALREADY_HAVE_ACCOUNT,
                 style: appLinkTextStyles,
               ),
             ),
           ),
         ],
-      );
-
-  // forgot password link widget
-  Widget forgotPasswordWidget() => InkWell(
-        onTap: () => Navigator.pushNamed(context, forgotPasswordScreenRoute),
-        highlightColor: appColorInkWellHighlight,
-        borderRadius: BorderRadius.circular(5),
-        child: Padding(
-          padding: const EdgeInsets.symmetric(
-            vertical: 2,
-            horizontal: 8,
-          ),
-          child: Text(
-            AUTH_CONST_FORGOT_PASSWORD_TEXT,
-            // style: authStylesLinkText,
-          ),
-        ),
       );
 
   // input field email
@@ -243,30 +212,6 @@ class _LoginScreenState extends State<LoginScreen> {
           } else if (!regExpEmail.hasMatch(value)) {
             // checking for valid email
             return APP_CONST_VALIDATION_ERROR_VALID_EMAIL1;
-          }
-          return null;
-        },
-        autovalidateMode: AutovalidateMode.onUserInteraction,
-      );
-
-  // input field password
-  Widget fieldPasswordWidget() => TextFormField(
-        style: appTextFormFieldStyles,
-        obscureText: isPasswordVisible,
-        decoration: InputDecoration(
-          hintText: APP_CONST_INPUT_HINT_PASSWORD,
-          border: appTextFormFieldInputBorderStyles,
-          focusedBorder: appTextFormFieldInputBorderFocusedStyles,
-          contentPadding:
-              const EdgeInsets.symmetric(vertical: 13, horizontal: 15),
-          // errorStyle: stylesInputError,
-        ),
-        initialValue: fieldPassword,
-        onSaved: (value) => setState(() => fieldPassword = value!),
-        validator: (value) {
-          if (value!.isEmpty) {
-            // checking for empty value
-            return APP_CONST_VALIDATION_ERROR_EMPTY_FIELD;
           }
           return null;
         },

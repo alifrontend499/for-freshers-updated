@@ -43,6 +43,7 @@ class _AppNavigationDrawerState extends ConsumerState<AppNavigationDrawer> {
     bool isLoggedIn = await isUserLoggedInHelper();
     AuthUserModel userDetailsRaw = await getUserDetailsHelper();
     print('userDetailsRaw $userDetailsRaw');
+    print('isLoggedIn $isLoggedIn');
 
     if (isLoggedIn) {
       // setting value

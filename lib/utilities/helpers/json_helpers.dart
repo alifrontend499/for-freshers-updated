@@ -40,6 +40,17 @@ Map<String, dynamic> convertUserDataFromApiJson(Map<String, dynamic> json) {
     'userName': json['name'],
     'userEmail': json['email'],
     'userPhone': json['phone'].toString(),
-    'userProfileImg': json['image'],
+    'userProfileImg': json['image'] ?? '',
+  };
+}
+
+Map<String, dynamic> convertUserDataFromProfileApiJson(Map<String, dynamic> json, String token) {
+  return {
+    'userToken': token,
+    'userId': json['id'].toString(),
+    'userName': json['name'],
+    'userEmail': json['email'],
+    'userPhone': json['phone'].toString(),
+    'userProfileImg': json['image'] ?? '',
   };
 }

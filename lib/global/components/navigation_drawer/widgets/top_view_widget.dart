@@ -27,9 +27,7 @@ Widget navigationDrawerTopViewWidget(
           // closing the drawer
           Navigator.pop(context);
 
-          if (isUserLoggedIn &&
-              userDetails != null &&
-              userDetails.userProfileImg.isNotEmpty) {
+          if (isUserLoggedIn && userDetails != null) {
             Navigator.pushNamed(context, userProfileScreenRoute);
           } else {
             Navigator.pushNamed(context, loginScreenRoute);

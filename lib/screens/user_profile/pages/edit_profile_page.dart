@@ -1,9 +1,6 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
-import 'package:forfreshers_app/utilities/apis/app_apis.dart';
-import 'package:forfreshers_app/utilities/helpers/app_snackbars.dart';
-import 'package:forfreshers_app/utilities/helpers/json_helpers.dart';
+
 // -- packages
 import 'package:http/http.dart' as http;
 
@@ -20,6 +17,10 @@ import 'package:forfreshers_app/screens/user_profile/style/screen_styles.dart';
 
 /// -- utilities
 import 'package:forfreshers_app/utilities/helpers/auth_helpers.dart';
+import 'package:forfreshers_app/utilities/apis/app_apis.dart';
+import 'package:forfreshers_app/utilities/helpers/app_snackbars.dart';
+import 'package:forfreshers_app/utilities/helpers/json_helpers.dart';
+import 'package:forfreshers_app/utilities/routing/routing_consts.dart';
 
 class EditProfilePage extends StatefulWidget {
   final AuthUserModel userDetails;
@@ -87,17 +88,16 @@ class _EditProfilePageState extends State<EditProfilePage> {
         final responseStatusCode = response.statusCode;
         final responseBody = response.body;
         final responseBodyJson = jsonDecode(responseBody);
-
-        print('responseBody $responseBody');
+        // print('responseBodyJson $responseBodyJson');
 
         if (responseStatusCode == 200) {
-          // final responseData = responseBodyJson['data'];
-          // final jsonData = convertUserDataFromApiJson(responseData);
-          // final AuthUserModel authUserToStore = AuthUserModel.fromJson(jsonData);
+          final responseData = responseBodyJson['data'][0];
+          final jsonData = convertUserDataFromProfileApiJson(responseData, userToken);
+          final AuthUserModel authUserToStore = AuthUserModel.fromJson(jsonData);
           // // setting auth user
-          // setUserDetailsHelper(authUserToStore);
+          setUserDetailsHelper(authUserToStore);
           // // setting user token
-          // setUserTokenHelper(authUserToStore.userToken);
+          setUserTokenHelper(authUserToStore.userToken);
 
           if (mounted) {
             // showing message
