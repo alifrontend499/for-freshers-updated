@@ -1,10 +1,18 @@
 import 'package:flutter/material.dart';
+
+// -- packages
+import 'package:page_transition/page_transition.dart';
+
+// -- global
 import 'package:forfreshers_app/global/colors/app_colors.dart';
 import 'package:forfreshers_app/global/models/test_models.dart';
+
+// -- screens
 import 'package:forfreshers_app/screens/completed_tests/styles/screen_styles.dart';
 import 'package:forfreshers_app/screens/test_summary/test_summary_screen.dart';
+
+// -- utilities
 import 'package:forfreshers_app/utilities/helpers/app_helpers.dart';
-import 'package:page_transition/page_transition.dart';
 
 Widget completeTestsScreenCardWidget(
   BuildContext context,

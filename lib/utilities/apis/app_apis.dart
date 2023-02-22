@@ -16,3 +16,5 @@ const String appApiChangePasswordEndPoint = 'resetpassword';
 const String appApiChangePassword = path + appApiChangePasswordEndPoint;
 const String appApiEditProfileEndPoint = 'editprofile';
 const String appApiEditProfile = path + appApiEditProfileEndPoint;
+const String appApiChangeProfileImageEndPoint = 'saveuserimage';
+const String appApiChangeProfileImage = path + appApiChangeProfileImageEndPoint;

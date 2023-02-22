@@ -43,6 +43,8 @@ dependencies:
   page_transition: ^2.0.9
   shared_preferences: ^2.0.16
   path_provider: ^2.0.11
+  image_picker: ^0.8.6+1
+  flutter_native_splash: ^2.2.17
 
 dev_dependencies:
   flutter_test:
@@ -54,6 +56,14 @@ dev_dependencies:
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
   flutter_lints: ^2.0.0
+
+#custom
+flutter_native_splash:
+  color: "#ffffff"
+  image: "assets/splash_icon.png"
+  android_12:
+    image: "assets/splash_icon_android12.png"
+    icon_background_color: "#ffffff"
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

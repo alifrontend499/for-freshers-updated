@@ -20,7 +20,6 @@ import 'package:forfreshers_app/utilities/helpers/auth_helpers.dart';
 import 'package:forfreshers_app/utilities/apis/app_apis.dart';
 import 'package:forfreshers_app/utilities/helpers/app_snackbars.dart';
 import 'package:forfreshers_app/utilities/helpers/json_helpers.dart';
-import 'package:forfreshers_app/utilities/routing/routing_consts.dart';
 
 class EditProfilePage extends StatefulWidget {
   final AuthUserModel userDetails;
@@ -148,23 +147,27 @@ class _EditProfilePageState extends State<EditProfilePage> {
               // child | form fields
               Expanded(
                 child: SingleChildScrollView(
-                  child: Form(
-                    key: formKey,
-                    child: Column(
-                      children: [
-                        // old password
-                        fieldFullNameFieldWidget(),
-                        const SizedBox(height: 20),
+                  child: Column(
+                    children: [
+                      Form(
+                        key: formKey,
+                        child: Column(
+                          children: [
+                            // old password
+                            fieldFullNameFieldWidget(),
+                            const SizedBox(height: 20),
 
-                        // password
-                        fieldEmailFieldWidget(),
-                        const SizedBox(height: 20),
+                            // password
+                            fieldEmailFieldWidget(),
+                            const SizedBox(height: 20),
 
-                        // confirm password
-                        fieldPhoneFieldWidget(),
-                        const SizedBox(height: 20),
-                      ],
-                    ),
+                            // confirm password
+                            fieldPhoneFieldWidget(),
+                            const SizedBox(height: 20),
+                          ],
+                        ),
+                      )
+                    ],
                   ),
                 ),
               ),

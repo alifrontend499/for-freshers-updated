@@ -31,3 +31,31 @@ ButtonStyle userProfileSubmitButtonStyles(bool isLoading) => ElevatedButton.styl
         borderRadius: BorderRadius.circular(5),
       ),
     );
+
+final ButtonStyle cancelUploadButtonStyles = ElevatedButton.styleFrom(
+  backgroundColor: Colors.redAccent,
+  splashFactory: NoSplash.splashFactory,
+  elevation: 0,
+  textStyle: const TextStyle(
+    fontSize: 15,
+  ),
+  shape: RoundedRectangleBorder(
+    borderRadius: BorderRadius.circular(5),
+  ),
+);
+final ButtonStyle uploadImageButtonStyles = ElevatedButton.styleFrom(
+  minimumSize: const Size(
+    double.infinity,
+    appSettingsDefaultButtonHeight,
+  ),
+  backgroundColor: appColorPrimary,
+  splashFactory: NoSplash.splashFactory,
+  textStyle: const TextStyle(
+      fontSize: 15,
+      fontWeight: FontWeight.w600,
+      letterSpacing: 1.1
+  ),
+  shape: RoundedRectangleBorder(
+    borderRadius: BorderRadius.circular(5),
+  ),
+);

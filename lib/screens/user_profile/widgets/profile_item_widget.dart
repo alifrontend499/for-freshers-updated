@@ -1,6 +1,12 @@
 import 'package:flutter/material.dart';
+
+// -- global
 import 'package:forfreshers_app/global/colors/app_colors.dart';
+
+// -- screens
 import 'package:forfreshers_app/screens/user_profile/pages/edit_password_page.dart';
+
+// -- packages
 import 'package:page_transition/page_transition.dart';
 
 Widget profileItemWidget(

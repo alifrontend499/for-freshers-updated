@@ -2,7 +2,7 @@
     package="com.freshers.quiz.forfreshers_app">
     <uses-permission android:name="android.permission.INTERNET" />
    <application
-        android:label="forfreshers_app"
+        android:label="For Freshers"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity

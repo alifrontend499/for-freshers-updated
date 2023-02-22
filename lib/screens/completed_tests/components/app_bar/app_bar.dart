@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:forfreshers_app/global/consts/completed_tests_screen_consts.dart';
 
 // -- global
 import 'package:forfreshers_app/global/settings/app_settings.dart';
 import 'package:forfreshers_app/global/styles/app_styles.dart';
+import 'package:forfreshers_app/global/consts/completed_tests_screen_consts.dart';
 
 PreferredSize getPageAppBar(BuildContext context, GlobalKey<ScaffoldState> scaffoldKey) {
   return PreferredSize(

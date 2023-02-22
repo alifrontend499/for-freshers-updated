@@ -4,11 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:forfreshers_app/global/colors/app_colors.dart';
 import 'package:forfreshers_app/global/settings/app_settings.dart';
 
-const TextStyle testViewAppBarTitleStyles = TextStyle(
-  color: Colors.black,
-  fontSize: 19,
-);
-
 ButtonStyle testViewAppBarActionCancelButtonStyles = ElevatedButton.styleFrom(
   backgroundColor: Colors.redAccent,
   splashFactory: NoSplash.splashFactory,

@@ -3,8 +3,6 @@ import 'package:flutter/material.dart';
 // -- global
 import 'package:forfreshers_app/global/styles/app_styles.dart';
 import 'package:forfreshers_app/global/consts/app_consts.dart';
-import 'package:forfreshers_app/global/colors/app_colors.dart';
-import 'package:forfreshers_app/global/settings/app_settings.dart';
 
 class LogoutTestDialog extends StatelessWidget {
   final Function logUserOut;

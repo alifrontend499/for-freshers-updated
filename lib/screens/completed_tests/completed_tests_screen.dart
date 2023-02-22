@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:forfreshers_app/global/components/navigation_drawer/navigation_drawer.dart';
 
 // -- global
 import 'package:forfreshers_app/global/models/test_models.dart';
+import 'package:forfreshers_app/global/components/navigation_drawer/navigation_drawer.dart';
 import 'package:forfreshers_app/global/settings/app_settings.dart';
 import 'package:forfreshers_app/global/widgets/no_data_found_widget.dart';
 
@@ -10,6 +10,8 @@ import 'package:forfreshers_app/global/widgets/no_data_found_widget.dart';
 import 'package:forfreshers_app/screens/completed_tests/components/app_bar/app_bar.dart';
 import 'package:forfreshers_app/screens/completed_tests/loading/completed_tests_screen_loading.dart';
 import 'package:forfreshers_app/screens/completed_tests/widgets/completed_test_card_widget.dart';
+
+// -- utilities
 import 'package:forfreshers_app/utilities/helpers/app_helpers.dart';
 import 'package:forfreshers_app/utilities/helpers/tests_helpers.dart';
 

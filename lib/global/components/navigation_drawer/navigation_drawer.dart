@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:forfreshers_app/global/dialogs/logout_dialog.dart';
 
 // -- global
 import 'package:forfreshers_app/global/models/auth_models.dart';
 import 'package:forfreshers_app/global/components/navigation_drawer/widgets/link_widget.dart';
 import 'package:forfreshers_app/global/consts/auth_consts.dart';
 import 'package:forfreshers_app/global/consts/navigation_drawer_consts.dart';
+import 'package:forfreshers_app/global/dialogs/logout_dialog.dart';
 
 // -- packages
 import 'package:flutter_riverpod/flutter_riverpod.dart';

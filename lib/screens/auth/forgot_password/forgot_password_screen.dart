@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:forfreshers_app/global/colors/app_colors.dart';
 import 'package:forfreshers_app/global/consts/app_consts.dart';
 import 'package:forfreshers_app/global/consts/auth_consts.dart';
-import 'package:forfreshers_app/global/models/auth_models.dart';
 import 'package:forfreshers_app/global/settings/app_settings.dart';
 import 'package:forfreshers_app/global/styles/app_styles.dart';
 
@@ -16,8 +15,6 @@ import 'package:forfreshers_app/screens/auth/styles/screen_styles.dart';
 // -- utilities
 import 'package:forfreshers_app/utilities/apis/app_apis.dart';
 import 'package:forfreshers_app/utilities/helpers/app_snackbars.dart';
-import 'package:forfreshers_app/utilities/helpers/auth_helpers.dart';
-import 'package:forfreshers_app/utilities/helpers/json_helpers.dart';
 import 'package:forfreshers_app/utilities/routing/routing_consts.dart';
 
 // -- packages

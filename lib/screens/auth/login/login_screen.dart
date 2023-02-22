@@ -32,8 +32,8 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   final formKey = GlobalKey<FormState>();
-  String fieldEmail = 'aman@gmail.com';
-  String fieldPassword = '123456';
+  String fieldEmail = '';
+  String fieldPassword = '';
   bool isPasswordVisible = true;
   bool submitBtnLoading = false;
 

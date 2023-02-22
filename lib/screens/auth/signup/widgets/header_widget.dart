@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+
+// -- global
 import 'package:forfreshers_app/global/consts/auth_consts.dart';
+
+// -- screens
 import 'package:forfreshers_app/screens/auth/styles/screen_styles.dart';
 
 Widget headerWidget() => Column(

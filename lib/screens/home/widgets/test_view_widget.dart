@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:forfreshers_app/global/components/test_card/test_card.dart';
 
@@ -39,5 +41,8 @@ Widget homeScreenTestCardViewWidget(TestViewModel testItemData, List<TestModel> 
             );
           }),
         ),
+        if(Platform.isAndroid) ...[
+          const SizedBox(height: 15),
+        ],
       ],
     );

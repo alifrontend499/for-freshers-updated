@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 
 // -- global
-import 'package:forfreshers_app/global/colors/app_colors.dart';
 import 'package:forfreshers_app/global/consts/test_view_screen_consts.dart';
-import 'package:forfreshers_app/global/models/test_models.dart';
 
 // -- screen
 import 'package:forfreshers_app/screens/test_view/helpers/test_view_helpers.dart';
