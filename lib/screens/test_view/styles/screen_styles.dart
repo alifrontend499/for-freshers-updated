@@ -88,11 +88,11 @@ ButtonStyle testViewTestResultScreenRetryTestsBtnStyles =
     appSettingsDefaultButtonHeight,
   ),
   backgroundColor: Colors.white.withOpacity(.7),
+  foregroundColor: Colors.black,
   splashFactory: NoSplash.splashFactory,
   textStyle: const TextStyle(
     fontSize: 15,
     fontWeight: FontWeight.w600,
-    color: Colors.black,
   ),
   shape: RoundedRectangleBorder(
     borderRadius: BorderRadius.circular(5),

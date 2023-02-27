@@ -86,28 +86,31 @@ class _TestViewTestResultScreenState
             children: [
               // child | main content
               Expanded(
-                child: Column(
-                  children: [
-                    // child | header
-                    testViewTestResultScreenHeaderWidget(
-                      widget.selectedAnswersData.rightAnswersPercentage,
-                    ),
-                    const SizedBox(height: 30),
+                child: SingleChildScrollView(
+                  physics: const BouncingScrollPhysics(),
+                  child: Column(
+                    children: [
+                      // child | header
+                      testViewTestResultScreenHeaderWidget(
+                        widget.selectedAnswersData.rightAnswersPercentage,
+                      ),
+                      const SizedBox(height: 30),
 
-                    // child | progress circle
-                    testViewTestResultProgressWidget(
-                      widget.selectedAnswersData,
-                    ),
-                    const SizedBox(height: 25),
+                      // child | progress circle
+                      testViewTestResultProgressWidget(
+                        widget.selectedAnswersData,
+                      ),
+                      const SizedBox(height: 25),
 
-                    // child | test's more info
-                    testViewTestResultTestsMoreInfo(
-                      context,
-                      widget.selectedAnswersData,
-                      widget.passPercentage,
-                      widget.completedTestDetails,
-                    ),
-                  ],
+                      // child | test's more info
+                      testViewTestResultTestsMoreInfo(
+                        context,
+                        widget.selectedAnswersData,
+                        widget.passPercentage,
+                        widget.completedTestDetails,
+                      ),
+                    ],
+                  ),
                 ),
               ),
 

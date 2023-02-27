@@ -12,8 +12,9 @@ Map<String, dynamic> convertTestsJson(Map<String, dynamic> json) {
 }
 
 Map<String, dynamic> convertQuestionDataModelJson(Map<String, dynamic> json) {
+  print('json $json');
   final List<Map<String, dynamic>> options = [];
-  json['answers'].forEach((e) => options.add(convertOptionsDataModelJson(e)));
+  json['question'].forEach((e) => options.add(convertOptionsDataModelJson(e)));
   return {
     'id': json['id'].toString(),
     'quizId': json['quiz_id'].toString(),

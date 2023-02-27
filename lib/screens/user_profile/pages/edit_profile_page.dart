@@ -70,6 +70,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
       try {
         // getting current user details
         final String userToken = await getUserTokenHelper();
+        print('userToken $userToken');
         final response = await http.post(
           Uri.parse(appApiEditProfile),
           headers: <String, String>{

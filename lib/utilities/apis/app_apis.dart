@@ -2,7 +2,7 @@ const String path = 'https://quiz.knowtherules.ca/api/v1/';
 
 // apis | common
 const String appApiListAllTests = '${path}get_question_answers';
-String apiGetTestQuestionsDetails(String id) => '${path}get_quiz_question_answers/$id';
+String apiGetTestQuestionsDetails(String id) => '${path}get_quiz_questions_by_category/$id';
 
 const String apiAllTypeTestsEndPoint = 'quizes';
 const String apiAllTypeTests = path + apiAllTypeTestsEndPoint;
@@ -18,3 +18,6 @@ const String appApiEditProfileEndPoint = 'editprofile';
 const String appApiEditProfile = path + appApiEditProfileEndPoint;
 const String appApiChangeProfileImageEndPoint = 'saveuserimage';
 const String appApiChangeProfileImage = path + appApiChangeProfileImageEndPoint;
+
+// user image
+const String getUserImagePathAPI = 'https://quiz.knowtherules.ca/api/v1/getprofileimage';

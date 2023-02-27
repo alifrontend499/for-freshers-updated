@@ -4,22 +4,28 @@ import 'package:forfreshers_app/global/colors/app_colors.dart';
 // -- global
 import 'package:forfreshers_app/global/models/auth_models.dart';
 import 'package:forfreshers_app/screens/user_profile/modal_bottom_sheets/select_image_bottom_sheet.dart';
+import 'package:forfreshers_app/utilities/apis/app_apis.dart';
 
 Widget userProfileImgWidget(
   BuildContext context,
   AuthUserModel userDetails,
   Function pickImage,
+  String userToken,
 ) =>
     Stack(
       children: [
         // child | image
-        userDetails.userProfileImg.isNotEmpty
+        true
             ? ClipRRect(
                 borderRadius: BorderRadius.circular(100),
                 child: Image.network(
-                  userDetails.userProfileImg,
+                  getUserImagePathAPI,
                   height: 120,
                   width: 120,
+                  fit: BoxFit.cover,
+                  headers: <String, String>{
+                    'Authorization': 'Bearer $userToken'
+                  },
                 ),
               )
             : SizedBox(

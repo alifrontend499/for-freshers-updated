@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:forfreshers_app/screens/user_profile/screens/selected_image_screen.dart';
 
 // -- packages
@@ -20,14 +21,14 @@ import 'package:forfreshers_app/screens/user_profile/widgets/profile_item_widget
 // -- utilities
 import 'package:forfreshers_app/utilities/helpers/auth_helpers.dart';
 
-class UserProfileScreen extends StatefulWidget {
+class UserProfileScreen extends ConsumerStatefulWidget {
   const UserProfileScreen({Key? key}) : super(key: key);
 
   @override
-  State<UserProfileScreen> createState() => _UserProfileScreenState();
+  ConsumerState<UserProfileScreen> createState() => _UserProfileScreenState();
 }
 
-class _UserProfileScreenState extends State<UserProfileScreen> {
+class _UserProfileScreenState extends ConsumerState<UserProfileScreen> {
   late AuthUserModel userDetails;
   File? selectedImage;
 
@@ -61,8 +62,6 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
     }
   }
 
-
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -79,6 +78,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                 context,
                 userDetails,
                 pickImage,
+                "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvcXVpei5rbm93dGhlcnVsZXMuY2FcL2FwaVwvdjFcL3VzZXJcL2xvZ2luIiwiaWF0IjoxNjc3NTA5MTM2LCJleHAiOjE2Nzc1MTI3MzYsIm5iZiI6MTY3NzUwOTEzNiwianRpIjoicVpmY0RzdlJlVHo2bVNvaSIsInN1YiI6OCwicHJ2IjoiMjNiZDVjODk0OWY2MDBhZGIzOWU3MDFjNDAwODcyZGI3YTU5NzZmNyJ9.T6r-vKbSHftFQKMtFEkYdc-FkdONyryJ1S8JvlGFQOM",
               ),
               const SizedBox(height: 20),
 

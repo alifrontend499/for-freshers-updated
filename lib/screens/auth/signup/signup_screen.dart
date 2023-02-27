@@ -7,6 +7,7 @@ import 'package:forfreshers_app/global/consts/app_consts.dart';
 import 'package:forfreshers_app/global/consts/auth_consts.dart';
 import 'package:forfreshers_app/global/settings/app_settings.dart';
 import 'package:forfreshers_app/global/styles/app_styles.dart';
+import 'package:forfreshers_app/screens/auth/components/auth_header.dart';
 
 // -- screens
 import 'package:forfreshers_app/screens/auth/signup/widgets/header_widget.dart';
@@ -107,6 +108,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: getAuthAppBar(context),
       body: SafeArea(
         child: GestureDetector(
           onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
@@ -120,7 +122,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   child: SingleChildScrollView(
                     physics: const BouncingScrollPhysics(),
                     child: Padding(
-                      padding: const EdgeInsets.only(top: 30, bottom: 20),
+                      padding: const EdgeInsets.only(top: 10, bottom: 20),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.stretch,
                         children: [
