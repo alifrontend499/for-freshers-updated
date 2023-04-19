@@ -68,9 +68,10 @@ List<Widget> getTestScreenWidgetsHelper(
   List<QuestionDataModel> questions,
   PageController controller,
 ) {
+  final List<QuestionDataModel> shuffledQuestions = questions..shuffle();
   List<Widget> widgetList = [];
   int index = 0;
-  for (final questionItem in questions) {
+  for (final questionItem in shuffledQuestions) {
     widgetList.add(
       TestViewTestScreen(
         pageTitle: 'Page $index',

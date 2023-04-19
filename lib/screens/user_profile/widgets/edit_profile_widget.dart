@@ -12,17 +12,20 @@ import 'package:forfreshers_app/screens/user_profile/style/screen_styles.dart';
 import 'package:forfreshers_app/screens/user_profile/pages/edit_profile_page.dart';
 
 Widget editProfileWidget(
-    BuildContext context,
-    AuthUserModel userDetails,
-    ) => ElevatedButton(
-  onPressed: () => Navigator.of(context).push(
-    PageTransition(
-      type: PageTransitionType.rightToLeft,
-      child: EditProfilePage(
-        userDetails: userDetails,
+  BuildContext context,
+  AuthUserModel userDetails,
+  Function updateUserProfileDetails,
+) =>
+    ElevatedButton(
+      onPressed: () => Navigator.of(context).push(
+        PageTransition(
+          type: PageTransitionType.rightToLeft,
+          child: EditProfilePage(
+            userDetails: userDetails,
+            updateUserProfileDetails: updateUserProfileDetails,
+          ),
+        ),
       ),
-    ),
-  ),
-  style: userProfileEditProfileButtonStyles,
-  child: const Text(USER_PROFILE_CONST_EDIT_PROFILE_TEXT),
-);
+      style: userProfileEditProfileButtonStyles,
+      child: const Text(USER_PROFILE_CONST_EDIT_PROFILE_TEXT),
+    );

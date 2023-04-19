@@ -21,3 +21,4 @@ const String appApiChangeProfileImage = path + appApiChangeProfileImageEndPoint;
 
 // user image
 const String getUserImagePathAPI = 'https://quiz.knowtherules.ca/api/v1/getprofileimage';
+String getTestImagePathAPI(String id) => 'https://quiz.knowtherules.ca/api/v1/images/quizImages/$id';

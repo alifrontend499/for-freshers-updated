@@ -1,6 +1,8 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:forfreshers_app/global/state/app_state.dart';
 import 'package:forfreshers_app/utilities/helpers/app_snackbars.dart';
 
 // -- packages
@@ -18,19 +20,21 @@ import 'package:forfreshers_app/screens/user_profile/style/screen_styles.dart';
 import 'package:forfreshers_app/utilities/helpers/auth_helpers.dart';
 import 'package:forfreshers_app/utilities/apis/app_apis.dart';
 
-class SelectedImageScreen extends StatefulWidget {
+class SelectedImageScreen extends ConsumerStatefulWidget {
   final File selectedImage;
+  final Function refreshPage;
 
   const SelectedImageScreen({
     Key? key,
     required this.selectedImage,
+    required this.refreshPage,
   }) : super(key: key);
 
   @override
-  State<SelectedImageScreen> createState() => _SelectedImageScreenState();
+  ConsumerState<SelectedImageScreen> createState() => _SelectedImageScreenState();
 }
 
-class _SelectedImageScreenState extends State<SelectedImageScreen> {
+class _SelectedImageScreenState extends ConsumerState<SelectedImageScreen> {
   bool imageUploadingLoading = false;
 
   Future<void> uploadImage() async {
@@ -38,35 +42,41 @@ class _SelectedImageScreenState extends State<SelectedImageScreen> {
     setState(() => imageUploadingLoading = true);
 
     try {
-      print('appApiChangeProfileImage $appApiChangeProfileImage');
       final String userToken = await getUserTokenHelper();
-      // creating request
-      final request = http.MultipartRequest(
-        'POST',
-        Uri.parse(appApiChangeProfileImage),
-      )..headers.addAll(<String, String>{
-        'Content-type': 'multipart/form-data',
+      Map<String, String> headers = {
+        'Content-Type': 'multipart/form-data',
         'Authorization': 'Bearer $userToken'
-      })..files.add(http.MultipartFile(
-        'image',
-        widget.selectedImage.readAsBytes().asStream(),
-        widget.selectedImage.lengthSync(),
-      ));
-      print('request headers ${request.headers}');
-      print('request files ${request.files.length}');
+      };
+      var request =
+          http.MultipartRequest('POST', Uri.parse(appApiChangeProfileImage))
+            ..headers.addAll(headers)
+            ..files.add(
+              await http.MultipartFile.fromPath(
+                'image',
+                widget.selectedImage.path,
+              ),
+            );
 
-      final http.StreamedResponse response = await request.send();
-
+      var response = await request.send();
       final responseStatusCode = response.statusCode;
-
-      print('responseStatusCode $responseStatusCode');
-      // print('isBroadcast ${response.stream.isBroadcast}');
-      // print('length ${response.stream.length}');
-      // print('first ${response.stream.first}');
-      // print('isEmpty ${response.stream.isEmpty}');
-      // print('single ${response.stream.single}');
-
       if (responseStatusCode == 200) {
+        // going back
+        if (mounted) {
+          // updating global image
+          ref.watch(profileImagePathProvider.notifier).state = getUserImagePathAPI;
+
+          // showing error
+          ScaffoldMessenger.of(context).showSnackBar(
+            appSnackBarSuccess(USER_PROFILE_CONSTS_UPLOAD_IMAGE_SUCCESSFULLY),
+          );
+          // refresh page
+          widget.refreshPage();
+          // clear image cache
+          imageCache.clear();
+          imageCache.clearLiveImages();
+          // moving to previous screen
+          Navigator.pop(context);
+        }
       } else {
         // showing error message
         if (mounted) {

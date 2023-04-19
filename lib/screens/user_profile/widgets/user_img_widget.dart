@@ -11,21 +11,38 @@ Widget userProfileImgWidget(
   AuthUserModel userDetails,
   Function pickImage,
   String userToken,
+  String profileImagePath,
 ) =>
     Stack(
       children: [
         // child | image
-        true
+        userToken.isNotEmpty
             ? ClipRRect(
                 borderRadius: BorderRadius.circular(100),
-                child: Image.network(
-                  getUserImagePathAPI,
-                  height: 120,
-                  width: 120,
-                  fit: BoxFit.cover,
-                  headers: <String, String>{
-                    'Authorization': 'Bearer $userToken'
-                  },
+                child: Container(
+                  color: appColorLightGrey,
+                  child: Image.network(
+                    profileImagePath,
+                    height: 120,
+                    width: 120,
+                    fit: BoxFit.cover,
+                    key: UniqueKey(),
+                    headers: <String, String>{
+                      'Authorization': 'Bearer $userToken'
+                    },
+                    loadingBuilder: (context, child, loadingProgress) {
+                      if (loadingProgress == null) return child;
+                      return const SizedBox(
+                        height: 120,
+                        width: 120,
+                        child: Center(
+                          child: CircularProgressIndicator(
+                            color: appColorSecondary,
+                          ),
+                        ),
+                      );
+                    },
+                  ),
                 ),
               )
             : SizedBox(

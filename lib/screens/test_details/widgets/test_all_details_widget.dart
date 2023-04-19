@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 // -- global
 import 'package:forfreshers_app/global/models/test_models.dart';
 import 'package:forfreshers_app/screens/test_details/styles/screen_styles.dart';
+import 'package:forfreshers_app/utilities/apis/app_apis.dart';
 
 Widget testDetailsScreenTestAllDetailsWidget(TestModel onGoingTest) => Column(
   crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -10,8 +11,8 @@ Widget testDetailsScreenTestAllDetailsWidget(TestModel onGoingTest) => Column(
       borderRadius: BorderRadius.circular(5),
       child: Image.network(
         // widget.testImg,
-        'https://cdn.pixabay.com/photo/2014/06/03/19/38/board-361516__340.jpg',
-        fit: BoxFit.fill,
+        getTestImagePathAPI(onGoingTest.testId.toString()),
+        fit: BoxFit.cover,
         height: 250,
       ),
     ),

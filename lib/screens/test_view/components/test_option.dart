@@ -127,7 +127,7 @@ class _TestViewTestScreenOptionsState extends ConsumerState<TestViewTestScreenOp
             ),
 
             // child | option description
-            if (selectedOptionId.isNotEmpty && optionItem.isRight == true) ...[
+            if (selectedOptionId.isNotEmpty && optionItem.isRight == true && optionItem.description.isNotEmpty) ...[
               const SizedBox(height: 15),
               Text(
                 optionItem.description,

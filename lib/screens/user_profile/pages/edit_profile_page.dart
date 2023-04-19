@@ -23,10 +23,12 @@ import 'package:forfreshers_app/utilities/helpers/json_helpers.dart';
 
 class EditProfilePage extends StatefulWidget {
   final AuthUserModel userDetails;
+  final Function updateUserProfileDetails;
 
   const EditProfilePage({
     Key? key,
     required this.userDetails,
+    required this.updateUserProfileDetails,
   }) : super(key: key);
 
   @override
@@ -106,6 +108,9 @@ class _EditProfilePageState extends State<EditProfilePage> {
                 APP_CONST_AUTH_RESPONSE_PROFILE_EDIT_SUCCESS,
               ),
             );
+
+            // updating profile
+            widget.updateUserProfileDetails();
 
             // redirecting back
             Navigator.pop(context);

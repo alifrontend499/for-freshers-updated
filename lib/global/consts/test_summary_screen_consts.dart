@@ -1,1 +1,1 @@
-const String TEST_SUMMARY_CONST_APPBAR_TITLE = "Text Summary";
+const String TEST_SUMMARY_CONST_APPBAR_TITLE = "Test Summary";

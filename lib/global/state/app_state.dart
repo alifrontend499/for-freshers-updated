@@ -3,10 +3,13 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 // -- global
 import 'package:forfreshers_app/global/models/test_models.dart';
+import 'package:forfreshers_app/utilities/apis/app_apis.dart';
 
 final ongoingTestProvider = StateProvider<TestModel?>((ref) => null); // to store the test user is on currently
 final isAnswerSelectedProvider = StateProvider<bool>((ref) => false); // when a single answer is selected
 final selectedAnswersProvider = StateProvider<List<SelectedAnswerModel>>((ref) => []); // all the answers selected byt the user will be in this.
+
+final profileImagePathProvider = StateProvider<String>((ref) => getUserImagePathAPI); // all the answers selected byt the user will be in this.
 
 
 // for active route

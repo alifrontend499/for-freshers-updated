@@ -47,6 +47,7 @@ class _HomeScreenState extends State<HomeScreen> {
     final List<TestViewModel> finalTestsData = [];
 
     try {
+      print('appApiListAllTests $appApiListAllTests');
       // getting data from network
       final response = await http.get(Uri.parse(appApiListAllTests));
       final responseStatusCode = response.statusCode;

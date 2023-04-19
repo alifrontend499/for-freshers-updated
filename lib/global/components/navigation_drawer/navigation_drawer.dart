@@ -13,6 +13,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 // -- component
 import 'package:forfreshers_app/global/components/navigation_drawer/widgets/top_view_widget.dart';
 import 'package:forfreshers_app/global/components/navigation_drawer/settings/navigation_drawer_settings.dart';
+import 'package:forfreshers_app/global/state/app_state.dart';
 
 // -- utilities
 import 'package:forfreshers_app/utilities/helpers/app_snackbars.dart';
@@ -30,6 +31,7 @@ class AppNavigationDrawer extends ConsumerStatefulWidget {
 class _AppNavigationDrawerState extends ConsumerState<AppNavigationDrawer> {
   bool isUserLoggedIn = false;
   AuthUserModel? userDetails;
+  String userToken = '';
 
   @override
   void initState() {
@@ -42,14 +44,14 @@ class _AppNavigationDrawerState extends ConsumerState<AppNavigationDrawer> {
   void getUserDetails() async {
     bool isLoggedIn = await isUserLoggedInHelper();
     AuthUserModel userDetailsRaw = await getUserDetailsHelper();
-    print('userDetailsRaw $userDetailsRaw');
-    print('isLoggedIn $isLoggedIn');
+    final String userTokenRaw = await getUserTokenHelper();
 
     if (isLoggedIn) {
       // setting value
       setState(() {
         isUserLoggedIn = isLoggedIn;
         userDetails = userDetailsRaw;
+        userToken = userTokenRaw;
       });
     }
   }
@@ -79,14 +81,13 @@ class _AppNavigationDrawerState extends ConsumerState<AppNavigationDrawer> {
   void onLogout() {
     showDialog(
       context: context,
-      builder: (context) =>
-          LogoutTestDialog(logUserOut: logUserOut),
+      builder: (context) => LogoutTestDialog(logUserOut: logUserOut),
     );
   }
 
   @override
   Widget build(BuildContext context) {
-    // final activeRouteName = ref.watch(activeRouteNameProvider);
+    final profileImagePath = ref.watch(profileImagePathProvider);
 
     return Drawer(
       child: Column(
@@ -94,7 +95,13 @@ class _AppNavigationDrawerState extends ConsumerState<AppNavigationDrawer> {
         children: [
           // child | top bar
           const SizedBox(height: 10),
-          navigationDrawerTopViewWidget(context, isUserLoggedIn, userDetails),
+          navigationDrawerTopViewWidget(
+            context,
+            isUserLoggedIn,
+            userDetails,
+            userToken,
+            profileImagePath,
+          ),
           const SizedBox(height: 10),
 
           // child | navigation links

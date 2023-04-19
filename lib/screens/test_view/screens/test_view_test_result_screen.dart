@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 
 // -- packages
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:forfreshers_app/global/colors/app_colors.dart';
-import 'package:forfreshers_app/global/consts/test_view_screen_consts.dart';
 
 // -- global
 import 'package:forfreshers_app/global/models/test_models.dart';
@@ -12,7 +10,6 @@ import 'package:forfreshers_app/global/settings/app_settings.dart';
 // -- screens
 import 'package:forfreshers_app/screens/test_view/components/test_result_screen_app_bar.dart';
 import 'package:forfreshers_app/screens/test_view/helpers/test_view_helpers.dart';
-import 'package:forfreshers_app/screens/test_view/styles/screen_styles.dart';
 import 'package:forfreshers_app/screens/test_view/widgets/test_result_screen_bottom_section_widget.dart';
 import 'package:forfreshers_app/screens/test_view/widgets/test_result_screen_header_widget.dart';
 import 'package:forfreshers_app/screens/test_view/widgets/test_result_screen_progress_widget.dart';

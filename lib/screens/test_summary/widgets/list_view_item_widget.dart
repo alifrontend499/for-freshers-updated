@@ -98,23 +98,26 @@ Widget answerHeadingWidget(SelectedAnswerModel dataItem) => Row(
 Widget optionItemWidget(SelectedAnswerModel selectedAnswerDataItem,
     OptionsDataModel optionsDataItem) {
   final bool rightAnswer =
-      selectedAnswerDataItem.wasRight == optionsDataItem.isRight;
-  return Row(
+      optionsDataItem.isRight == selectedAnswerDataItem.wasRight;
+  return Wrap(
     children: [
-      if (rightAnswer) ...[
-        const Icon(
-          Icons.check,
-          size: 17,
-          color: appColorPrimary,
-        ),
-        const SizedBox(width: 5),
+      if (optionsDataItem.isRight) ...[
+        // const SizedBox(
+        //   width: 20,
+        //   child: Icon(
+        //     Icons.check,
+        //     size: 17,
+        //     color: appColorPrimary,
+        //   ),
+        // ),
+        // const SizedBox(width: 5),
       ],
       Text(
         optionsDataItem.name,
         style: TextStyle(
           fontSize: 15,
           color: optionsDataItem.isRight ? Colors.green : Colors.black,
-          fontWeight: rightAnswer ? FontWeight.w600 : FontWeight.w100,
+          fontWeight: optionsDataItem.isRight ? FontWeight.w600 : FontWeight.w100,
         ),
       ),
     ],

@@ -1,7 +1,9 @@
+import 'dart:async';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:forfreshers_app/global/state/app_state.dart';
 import 'package:forfreshers_app/screens/user_profile/screens/selected_image_screen.dart';
 
 // -- packages
@@ -31,6 +33,7 @@ class UserProfileScreen extends ConsumerStatefulWidget {
 class _UserProfileScreenState extends ConsumerState<UserProfileScreen> {
   late AuthUserModel userDetails;
   File? selectedImage;
+  String userToken = '';
 
   @override
   void initState() {
@@ -43,7 +46,16 @@ class _UserProfileScreenState extends ConsumerState<UserProfileScreen> {
   // Function
   void getUserDetails() async {
     AuthUserModel userDetailsRaw = await getUserDetailsHelper();
-    setState(() => userDetails = userDetailsRaw);
+    final String userTokenRaw = await getUserTokenHelper();
+    setState(() {
+      userDetails = userDetailsRaw;
+      userToken = userTokenRaw;
+    });
+  }
+
+  void updateUserProfileDetails() {
+    // getting details
+    getUserDetails();
   }
 
   // to pick image
@@ -53,17 +65,25 @@ class _UserProfileScreenState extends ConsumerState<UserProfileScreen> {
     final File imageTemp = File(image.path);
     setState(() => selectedImage = imageTemp);
     if (mounted) {
+      Navigator.pop(context);
       Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => SelectedImageScreen(selectedImage: imageTemp),
+          builder: (context) => SelectedImageScreen(selectedImage: imageTemp, refreshPage: refreshPage,),
         ),
       );
     }
   }
 
+  FutureOr refreshPage() {
+    print('pressed');
+    setState(() { });
+  }
+
   @override
   Widget build(BuildContext context) {
+    final profileImagePath = ref.watch(profileImagePathProvider);
+
     return Scaffold(
       appBar: getPageAppBar(context),
       body: SingleChildScrollView(
@@ -78,11 +98,12 @@ class _UserProfileScreenState extends ConsumerState<UserProfileScreen> {
                 context,
                 userDetails,
                 pickImage,
-                "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvcXVpei5rbm93dGhlcnVsZXMuY2FcL2FwaVwvdjFcL3VzZXJcL2xvZ2luIiwiaWF0IjoxNjc3NTA5MTM2LCJleHAiOjE2Nzc1MTI3MzYsIm5iZiI6MTY3NzUwOTEzNiwianRpIjoicVpmY0RzdlJlVHo2bVNvaSIsInN1YiI6OCwicHJ2IjoiMjNiZDVjODk0OWY2MDBhZGIzOWU3MDFjNDAwODcyZGI3YTU5NzZmNyJ9.T6r-vKbSHftFQKMtFEkYdc-FkdONyryJ1S8JvlGFQOM",
+                userToken,
+                profileImagePath,
               ),
               const SizedBox(height: 20),
 
-              editProfileWidget(context, userDetails),
+              editProfileWidget(context, userDetails, updateUserProfileDetails),
               const SizedBox(height: 15),
 
               // child | profile name

@@ -9,6 +9,7 @@ import 'package:forfreshers_app/global/dialogs/premium_test_dialog.dart';
 
 // -- packages
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:forfreshers_app/utilities/apis/app_apis.dart';
 
 // -- utilities
 import 'package:forfreshers_app/utilities/routing/routing_consts.dart';
@@ -28,7 +29,7 @@ class TestCard extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return InkWell(
       splashColor: Colors.transparent,
-      highlightColor: appColorPrimary,
+      highlightColor: appColorInkWellHighlight,
       borderRadius: BorderRadius.circular(20),
       child: Container(
         padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 15),
@@ -36,9 +37,7 @@ class TestCard extends ConsumerWidget {
           borderRadius: BorderRadius.circular(20),
           image: DecorationImage(
             image: NetworkImage(
-              testDetails.testImg != ''
-                  ? testDetails.testImg
-                  : 'https://cdn.pixabay.com/photo/2014/06/03/19/38/board-361516__340.jpg',
+              getTestImagePathAPI(testDetails.testId.toString()),
             ),
             fit: BoxFit.cover,
             colorFilter: ColorFilter.mode(

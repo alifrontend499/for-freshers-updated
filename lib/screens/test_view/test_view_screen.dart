@@ -82,7 +82,7 @@ class _TestViewScreenState extends ConsumerState<TestViewScreen> {
       final responseStatusCode = response.statusCode;
       final responseBody = response.body;
       final responseBodyData = jsonDecode(responseBody);
-      final responseData = responseBodyData['data']['quiz'];
+      final responseData = responseBodyData['data'];
 
       if (responseStatusCode == 200) {
         if (responseData.isNotEmpty) {
@@ -90,7 +90,7 @@ class _TestViewScreenState extends ConsumerState<TestViewScreen> {
           final List<QuestionDataModel> questions = [];
           for (final questionItem in questionsData) {
             final Map<String, dynamic> convertedQuestionItem =
-                convertQuestionDataModelJson(questionItem);
+                convertQuestionDataModelJson(questionItem['question']);
             questions.add(QuestionDataModel.fromJson(convertedQuestionItem));
           }
 

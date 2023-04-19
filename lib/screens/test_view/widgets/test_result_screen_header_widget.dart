@@ -18,7 +18,7 @@ Widget testViewTestResultScreenHeaderWidget(
     const SizedBox(height: 10),
     Text(
       TEST_VIEW_TEST_RESULT_SCREEN_CONST_HEADING2(
-          rightAnswersPercentage.toString()),
+          rightAnswersPercentage.round().toString()),
       textAlign: TextAlign.center,
       style: testViewTestResultScreenHeading2Styles,
     ),
