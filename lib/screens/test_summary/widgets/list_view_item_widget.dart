@@ -97,29 +97,16 @@ Widget answerHeadingWidget(SelectedAnswerModel dataItem) => Row(
 
 Widget optionItemWidget(SelectedAnswerModel selectedAnswerDataItem,
     OptionsDataModel optionsDataItem) {
-  final bool rightAnswer =
-      optionsDataItem.isRight == selectedAnswerDataItem.wasRight;
-  return Wrap(
-    children: [
-      if (optionsDataItem.isRight) ...[
-        // const SizedBox(
-        //   width: 20,
-        //   child: Icon(
-        //     Icons.check,
-        //     size: 17,
-        //     color: appColorPrimary,
-        //   ),
-        // ),
-        // const SizedBox(width: 5),
-      ],
-      Text(
-        optionsDataItem.name,
-        style: TextStyle(
-          fontSize: 15,
-          color: optionsDataItem.isRight ? Colors.green : Colors.black,
-          fontWeight: optionsDataItem.isRight ? FontWeight.w600 : FontWeight.w100,
-        ),
-      ),
-    ],
+  final bool selectedOption =
+      selectedAnswerDataItem.selectedOption.id == optionsDataItem.id;
+  final String textToShow = '${optionsDataItem.name} ${selectedOption ? ' (selected)' : ''}';
+  return Text(
+    textToShow,
+    style: TextStyle(
+      fontSize: 15,
+      color: optionsDataItem.isRight ? Colors.green : Colors.black,
+      fontWeight:
+      (optionsDataItem.isRight || selectedOption) ? FontWeight.w600 : FontWeight.w100,
+    ),
   );
 }

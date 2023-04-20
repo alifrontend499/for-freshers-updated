@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:forfreshers_app/global/colors/app_colors.dart';
 
 // -- global
 import 'package:forfreshers_app/global/models/test_models.dart';
@@ -6,6 +7,7 @@ import 'package:forfreshers_app/global/models/test_models.dart';
 // -- screen
 import 'package:forfreshers_app/screens/test_view/styles/screen_styles.dart';
 
+const String imgPath = 'https://quiz.knowtherules.ca/api/v1/question_edit_img/';
 Widget testViewTestScreenTopPartWidget(
   int pagesCount,
   int pagesPosition,
@@ -13,6 +15,7 @@ Widget testViewTestScreenTopPartWidget(
 ) =>
     Column(
       crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisAlignment: MainAxisAlignment.start,
       children: [
         Text(
           'Questions ${pagesPosition + 1}/$pagesCount',
@@ -27,9 +30,22 @@ Widget testViewTestScreenTopPartWidget(
         ),
         if (questionData.imgUrl.isNotEmpty) ...[
           const SizedBox(height: 15),
-          Image.network(
-            'https://miro.medium.com/max/1400/1*DvJgeV_GHPkkA2aXq3Vr5g.png',
-          )
+          Container(
+            constraints: const BoxConstraints(
+              maxHeight: 150,
+            ),
+            child: Image.network(
+              '$imgPath${questionData.imgUrl}',
+              loadingBuilder: (context, child, loadingProgress) {
+                if (loadingProgress == null) return child;
+                return const SizedBox(
+                  // height: 48,
+                  // width: 48,
+                  child: Text('image loading...'),
+                );
+              },
+            ),
+          ),
         ],
       ],
     );

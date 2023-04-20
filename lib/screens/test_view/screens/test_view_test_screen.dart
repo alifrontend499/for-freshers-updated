@@ -38,7 +38,7 @@ class TestViewTestScreen extends StatelessWidget {
             pagesPosition,
             questionData,
           ),
-          const SizedBox(height: 50),
+          const SizedBox(height: 30),
 
           // child | options
           TestViewTestScreenOptions(
