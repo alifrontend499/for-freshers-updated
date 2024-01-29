@@ -19,6 +19,10 @@ const String appApiEditProfile = path + appApiEditProfileEndPoint;
 const String appApiChangeProfileImageEndPoint = 'saveuserimage';
 const String appApiChangeProfileImage = path + appApiChangeProfileImageEndPoint;
 
+// apis | report
+const String appApiReportQuestionEndPoint = 'question_report';
+const String appApiReportQuestion = path + appApiReportQuestionEndPoint;
+
 // user image
 const String getUserImagePathAPI = 'https://quiz.knowtherules.ca/api/v1/getprofileimage';
 String getTestImagePathAPI(String id) => 'https://quiz.knowtherules.ca/api/v1/images/quizImages/$id';

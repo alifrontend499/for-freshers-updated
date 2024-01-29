@@ -13,7 +13,7 @@ import 'package:forfreshers_app/global/widgets/no_data_found_widget.dart';
 
 // -- screen
 import 'package:forfreshers_app/screens/list_all_tests/components/app_bar/app_bar.dart';
-import 'package:forfreshers_app/screens/list_all_tests/loading/home_screen_loading.dart';
+import 'package:forfreshers_app/screens/list_all_tests/loading/all_tests_screen_loading.dart';
 import 'package:forfreshers_app/screens/list_all_tests/widgets/test_view_widget.dart';
 
 // -- utilities
@@ -116,7 +116,7 @@ class _ListAllTestsScreenState extends State<ListAllTestsScreen> {
             if (snapshot.connectionState == ConnectionState.waiting) {
               // loading
               return ListView.builder(
-                itemCount: 5,
+                itemCount: 8,
                 itemBuilder: (context, index) {
                   return const ScreenLoading();
                 },

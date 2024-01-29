@@ -15,9 +15,12 @@ void updateSelectedAnswersProviderGlobalHelper(WidgetRef ref, SelectedAnswerMode
 
   // updating state
   ref.watch(selectedAnswersProvider.notifier).state = currentList;
+}
 
-  // done
-  print('state updated');
+// to update selected answers
+void updateAllSelectedAnswersProviderGlobalHelper(WidgetRef ref, List<SelectedAnswerModel> newItems) {
+  // updating state
+  ref.watch(selectedAnswersProvider.notifier).state = newItems;
 }
 
 // when test is completed
@@ -25,9 +28,6 @@ void retryTestGlobalHelper(WidgetRef ref) {
   // updating state
   ref.watch(selectedAnswersProvider.notifier).state = [];
   ref.watch(isAnswerSelectedProvider.notifier).state = false;
-
-  // done
-  print('state updated');
 }
 
 // when test is completed
@@ -35,9 +35,6 @@ void testCanceledGlobalHelper(WidgetRef ref) {
   // updating state
   ref.watch(selectedAnswersProvider.notifier).state = [];
   ref.watch(isAnswerSelectedProvider.notifier).state = false;
-
-  // done
-  print('state updated');
 }
 
 // when test is completed
@@ -46,7 +43,4 @@ void testCompleteGlobalHelper(WidgetRef ref) {
   ref.watch(selectedAnswersProvider.notifier).state = [];
   ref.watch(isAnswerSelectedProvider.notifier).state = false;
   ref.watch(ongoingTestProvider.notifier).state = null;
-
-  // done
-  print('state updated');
 }

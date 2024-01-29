@@ -34,76 +34,98 @@ class TestCard extends ConsumerWidget {
       child: Container(
         padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 15),
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(20),
-          image: DecorationImage(
-            image: NetworkImage(
-              getTestImagePathAPI(testDetails.testId.toString()),
-            ),
-            fit: BoxFit.cover,
-            colorFilter: ColorFilter.mode(
-              Colors.white.withOpacity(0.2),
-              BlendMode.modulate,
-            ),
-          ),
-          border: Border.all(
-            color: Colors.grey.withOpacity(0.2),
-          ),
+          color: appColorLightGrey,
+          borderRadius: BorderRadius.circular(10),
         ),
-        child: Stack(
+        child: Row(
           children: [
-            // child | test type
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                // child | header
-                Text(
-                  getCapitalizeTextHelper(testDetails.testType),
-                  style: appTestCardTestTypeStyles,
-                ),
-                const SizedBox(height: 35),
-
-                // child | test name
-                Text(
-                  testDetails.testName,
-                  style: appTestCardTestNameStyles,
-                  overflow: TextOverflow.ellipsis,
-                ),
-                const SizedBox(height: 7),
-
-                // child | test description
-                if (showDescription) ...[
-                  Text(
-                    testDetails.testDescription,
-                    style: appTestCardTestDescriptionStyles,
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
+            SizedBox(
+              width: 50,
+              height: 50,
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(10),
+                child: Container(
+                  color: Colors.grey.withOpacity(.2),
+                  child: Image.network(
+                    getTestImagePathAPI(testDetails.testId.toString()),
+                    fit: BoxFit.fill,
+                    key: UniqueKey(),
+                    // loadingBuilder: (context, child, loadingProgress) {
+                    //   if (loadingProgress == null) return child;
+                    //   return const SizedBox(
+                    //     height: 10,
+                    //     width: 10,
+                    //     child: Center(
+                    //       child: CircularProgressIndicator(
+                    //         color: appColorSecondary,
+                    //       ),
+                    //     ),
+                    //   );
+                    // },
                   ),
-                  const SizedBox(height: 7),
-                ],
-
-                // child | test questions
-                Text(
-                  "${testDetails.totalQuestions} Questions",
-                  style: appTestCardTestQuestionsStyles,
-                ),
-              ],
-            ),
-
-            // child | is premium icon
-            if (testDetails.isTestPremium) ...[
-              const Positioned(
-                right: 0,
-                child: Icon(
-                  Icons.lock,
-                  size: 17,
-                  color: appColorPrimary,
                 ),
               ),
-            ],
+            ),
+            const SizedBox(width: 15),
+            Expanded(
+              child: Stack(
+                children: [
+                  // child | test type
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      // child | header
+                      // Text(
+                      //   getCapitalizeTextHelper(testDetails.testType),
+                      //   style: appTestCardTestTypeStyles,
+                      // ),
+                      // const SizedBox(height: 35),
+
+                      // child | test name
+                      Text(
+                        testDetails.testName,
+                        style: appTestCardTestNameStyles,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+
+                      // child | test description
+                      if (showDescription) ...[
+                        const SizedBox(height: 5),
+                        Text(
+                          testDetails.testDescription,
+                          style: appTestCardTestDescriptionStyles,
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                        const SizedBox(height: 7),
+                      ],
+
+                      // child | test questions
+                      Text(
+                        "${testDetails.totalQuestions} Questions",
+                        style: appTestCardTestQuestionsStyles,
+                      ),
+                    ],
+                  ),
+
+                  // child | is premium icon
+                  if (testDetails.isTestPremium) ...[
+                    const Positioned(
+                      right: 0,
+                      child: Icon(
+                        Icons.lock,
+                        size: 17,
+                        color: appColorPrimary,
+                      ),
+                    ),
+                  ],
+                ],
+              ),
+            ),
           ],
         ),
       ),
-      onTap: () {
+      onTap: () async {
         if (testDetails.isTestPremium) {
           // showing dialog
           showDialog(

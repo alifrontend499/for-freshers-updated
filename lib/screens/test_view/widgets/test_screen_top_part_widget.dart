@@ -6,9 +6,12 @@ import 'package:forfreshers_app/global/models/test_models.dart';
 
 // -- screen
 import 'package:forfreshers_app/screens/test_view/styles/screen_styles.dart';
+import 'package:forfreshers_app/screens/test_view/widgets/report_question_widget.dart';
 
 const String imgPath = 'https://quiz.knowtherules.ca/api/v1/question_edit_img/';
+
 Widget testViewTestScreenTopPartWidget(
+  BuildContext context,
   int pagesCount,
   int pagesPosition,
   QuestionDataModel questionData,
@@ -17,6 +20,17 @@ Widget testViewTestScreenTopPartWidget(
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
+        // child | report question
+        Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            reportQuestionWidget(
+              context,
+              questionData,
+            ),
+          ],
+        ),
+
         Text(
           'Questions ${pagesPosition + 1}/$pagesCount',
           style: testViewTestScreenQuestionCountStyles,

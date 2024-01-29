@@ -181,25 +181,13 @@ class SelectedAnswerModel {
 
 // modal | for a complete test that includes all the questions details as well
 class CompletedTestModel {
-  final String testId;
-  final String testType;
-  final String testName;
-  final String totalQuestions;
-  final String testDescription;
-  final bool isTestPremium;
-  final String testImg;
+  final TestModel testDetails;
   final List<SelectedAnswerModel> selectedAnswers;
   final DateTime completedOn;
   final int rightAnswersCount;
 
   CompletedTestModel({
-    required this.testId,
-    required this.testType,
-    required this.testName,
-    required this.totalQuestions,
-    required this.testDescription,
-    required this.isTestPremium,
-    required this.testImg,
+    required this.testDetails,
     required this.selectedAnswers,
     required this.completedOn,
     required this.rightAnswersCount,
@@ -209,13 +197,7 @@ class CompletedTestModel {
     List<SelectedAnswerModel> selectedAnswersData = [];
     json['selectedAnswers'].forEach((e) => selectedAnswersData.add(SelectedAnswerModel.fromJson(e)));
     return CompletedTestModel(
-      testId: json['testId'],
-      testType: json['testType'],
-      testName: json['testName'],
-      totalQuestions: json['totalQuestions'],
-      testDescription: json['testDescription'],
-      isTestPremium: json['isTestPremium'],
-      testImg: json['testImg'],
+      testDetails: TestModel.fromJson(json['testDetails']),
       selectedAnswers: selectedAnswersData,
       completedOn: DateTime.parse(json['completedOn']),
       rightAnswersCount: json['rightAnswersCount'],
@@ -224,16 +206,62 @@ class CompletedTestModel {
 
   Map<String, dynamic> toJson() {
     return {
-      'testId': testId,
-      'testType': testType,
-      'testName': testName,
-      'totalQuestions': totalQuestions,
-      'testDescription': testDescription,
-      'isTestPremium': isTestPremium,
-      'testImg': testImg,
+      'testDetails': testDetails.toJson(),
       'selectedAnswers': selectedAnswers.map((e) => e.toJson()).toList(),
       'completedOn': completedOn.toIso8601String(),
       'rightAnswersCount': rightAnswersCount,
     };
   }
+}
+
+
+// modal | for an in complete quiz
+class InCompleteTestsDataModel {
+  final String testId;
+  final String testType;
+  final String testName;
+  final String totalQuestions;
+  final String testDescription;
+  final bool isTestPremium;
+  final String testImg;
+  final List<SelectedAnswerModel> selectedAnswers;
+
+  InCompleteTestsDataModel({
+    required this.testId,
+    required this.testType,
+    required this.testName,
+    required this.totalQuestions,
+    required this.testDescription,
+    required this.isTestPremium,
+    required this.testImg,
+    required this.selectedAnswers,
+  });
+
+  factory InCompleteTestsDataModel.fromJson(Map<String, dynamic> json) {
+    // creating data for questions
+    final List<SelectedAnswerModel> allSelectedAnswers = [];
+    json['selectedAnswers'].forEach((e) => allSelectedAnswers.add(SelectedAnswerModel.fromJson(e)));
+
+    return InCompleteTestsDataModel(
+      testId: json['testId'],
+      testType: json['testType'],
+      testName: json['testName'],
+      totalQuestions: json['totalQuestions'],
+      testDescription: json['testDescription'],
+      isTestPremium: json['isTestPremium'],
+      testImg: json['testImg'],
+      selectedAnswers: allSelectedAnswers,
+    );
+  }
+
+  Map<String, dynamic> toJson() => {
+    'testId': testId,
+    'testType': testType,
+    'testName': testName,
+    'totalQuestions': totalQuestions,
+    'testDescription': testDescription,
+    'isTestPremium': isTestPremium,
+    'testImg': testImg,
+    'selectedAnswers': selectedAnswers.map((e) => e.toJson()).toList(),
+  };
 }

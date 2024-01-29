@@ -9,7 +9,7 @@ Widget viewAllTestsScreenTestCardViewWidget(TestModel testItem) => Column(
       children: [
         TestCard(
           testDetails: TestModel.fromJson(testItem.toJson()),
-          showDescription: true,
+          showDescription: testItem.testDescription.isNotEmpty,
         ),
         const SizedBox(height: 15),
       ],

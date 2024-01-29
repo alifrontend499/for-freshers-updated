@@ -155,10 +155,29 @@ class _AppNavigationDrawerState extends ConsumerState<AppNavigationDrawer> {
 
                             // moving to page
                             Navigator.pushNamed(
-                                context, completedTestScreenRoute);
+                              context,
+                              completedTestScreenRoute,
+                            );
                           },
                           Icons.lightbulb_circle_outlined,
                           NAVIGATION_DRAWER_CONSTS_LINK_TEXT_COMPLETED_TESTS,
+                          isActive: false,
+                        ),
+
+                        // child | link widget
+                        navigationDrawerLinkWidget(
+                          () {
+                            // closing the drawer
+                            Navigator.pop(context);
+
+                            // moving to page
+                            Navigator.pushNamed(
+                              context,
+                              incompleteTestScreenRoute,
+                            );
+                          },
+                          Icons.access_time_rounded,
+                          NAVIGATION_DRAWER_CONSTS_LINK_TEXT_INCOMPLETE_TESTS,
                           isActive: false,
                         ),
 

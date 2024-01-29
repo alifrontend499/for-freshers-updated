@@ -12,40 +12,31 @@ import 'package:forfreshers_app/global/styles/app_styles.dart';
 // -- screens
 import 'package:forfreshers_app/screens/test_view/styles/screen_styles.dart';
 
-PreferredSize getPageAppBar(
+PreferredSize getReportQuestionAppBar(
   BuildContext context,
-  String testName,
-  WidgetRef parentRef,
-  bool loading,
 ) {
   return PreferredSize(
     preferredSize: appSettingsBarSize,
     child: AppBar(
       automaticallyImplyLeading: false,
-
+      leading: IconButton(
+        icon: const Icon(
+          Icons.chevron_left,
+          size: appSettingsBarLeadingSize,
+        ),
+        onPressed: () => Navigator.pop(context),
+        color: Colors.black,
+        splashColor: Colors.transparent,
+        splashRadius: appSettingsBarLeadingSplashRadius,
+      ),
       title: Padding(
         padding: const EdgeInsets.only(left: 15),
         child: Text(
-          testName,
+          'Report Question',
           style: appBarTitleStyles,
         ),
       ),
       titleSpacing: 0,
-      actions: [
-        if (loading == false) ...[
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 15),
-            child: ElevatedButton(
-              onPressed: () => showDialog(
-                context: context,
-                builder: (context) => CancelTestDialog(parentRef: parentRef),
-              ),
-              style: testViewAppBarActionCancelButtonStyles,
-              child: Text(TEST_VIEW_SCREEN_CONST_APPBAR_ACTION_CANCEL_TEST),
-            ),
-          ),
-        ],
-      ],
     ),
   );
 }

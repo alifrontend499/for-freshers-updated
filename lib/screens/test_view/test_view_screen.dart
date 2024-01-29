@@ -12,6 +12,8 @@ import 'package:forfreshers_app/screens/test_view/styles/screen_styles.dart';
 
 // -- utilities
 import 'package:forfreshers_app/utilities/helpers/json_helpers.dart';
+import 'package:forfreshers_app/utilities/helpers/saving_tests_progress_helpers.dart';
+import 'package:forfreshers_app/utilities/helpers/state_helpers.dart';
 import 'package:forfreshers_app/utilities/helpers/tests_helpers.dart';
 import 'package:http/http.dart' as http;
 
@@ -25,14 +27,20 @@ import 'package:forfreshers_app/global/models/test_models.dart';
 import 'package:forfreshers_app/screens/test_view/components/app_bar/app_bar.dart';
 import 'package:forfreshers_app/screens/test_view/components/content_loading.dart';
 import 'package:forfreshers_app/screens/test_view/helpers/test_view_helpers.dart';
-import 'package:forfreshers_app/screens/test_view/widgets/bottom_view_widget.dart';
 
 // -- utilities
 import 'package:forfreshers_app/utilities/helpers/app_snackbars.dart';
 import 'package:forfreshers_app/utilities/apis/app_apis.dart';
 
 class TestViewScreen extends ConsumerStatefulWidget {
-  const TestViewScreen({Key? key}) : super(key: key);
+  final bool isTestContinued;
+  final InCompleteTestsDataModel? inCompleteTestDetails;
+
+  const TestViewScreen({
+    Key? key,
+    this.isTestContinued = false,
+    this.inCompleteTestDetails,
+  }) : super(key: key);
 
   @override
   ConsumerState<TestViewScreen> createState() => _TestViewScreenState();
@@ -41,6 +49,7 @@ class TestViewScreen extends ConsumerStatefulWidget {
 class _TestViewScreenState extends ConsumerState<TestViewScreen> {
   late PageController controller = PageController(initialPage: 0);
   late List<Widget> children = [];
+  late List<QuestionDataModel> allQuestions = [];
   late int pagesCount = 0;
   int currentPage = 0;
   bool contentLoading = false;
@@ -94,16 +103,47 @@ class _TestViewScreenState extends ConsumerState<TestViewScreen> {
             questions.add(QuestionDataModel.fromJson(convertedQuestionItem));
           }
 
-          // getting widgets list
-          List<Widget> widgetsList =
-              getTestScreenWidgetsHelper(questions, controller);
+          // generating views
+          List<Widget> widgetsList = getTestScreenWidgetsHelper(
+            questions,
+            controller,
+          );
 
-          // updating state
-          setState(() {
-            pagesCount = questions.length;
-            children = widgetsList;
-            currentPage = 0;
-          });
+          // getting widgets list
+          // if test already attempted earlier
+          if (widget.isTestContinued && widget.inCompleteTestDetails != null) {
+            final InCompleteTestsDataModel inCompleteTestDetails =
+                widget.inCompleteTestDetails!;
+
+            final int completedQuestionsCount =
+                inCompleteTestDetails.selectedAnswers.length;
+
+            // setting global state for selected answer
+            updateAllSelectedAnswersProviderGlobalHelper(
+              ref,
+              inCompleteTestDetails.selectedAnswers,
+            );
+
+            // moving to the page after the last completed questions
+            setState(
+              () {
+                controller = PageController(
+                  initialPage: completedQuestionsCount,
+                );
+                currentPage = completedQuestionsCount;
+                allQuestions = questions;
+                pagesCount = questions.length;
+                children = widgetsList;
+              },
+            );
+          } else {
+            setState(() {
+              currentPage = 0;
+              allQuestions = questions;
+              pagesCount = questions.length;
+              children = widgetsList;
+            });
+          }
         }
       } else {
         // showing error message
@@ -136,40 +176,66 @@ class _TestViewScreenState extends ConsumerState<TestViewScreen> {
   // when user clicks on next or submit
   Future<void> onScreenButtonPresses() async {
     final bool isAnswerSelected = ref.watch(isAnswerSelectedProvider);
-    if (isAnswerSelected) {
-      if (currentPage < (pagesCount - 1)) {
-        // setting current page
-        setState(() => currentPage = currentPage + 1);
+    final TestModel? onGoingTestData = ref.read(ongoingTestProvider);
+    if (onGoingTestData != null) {
+      final TestModel onGoingTest = onGoingTestData;
+      final List<SelectedAnswerModel> selectedAnswers =
+          ref.read(selectedAnswersProvider);
+      if (isAnswerSelected) {
+        // -- if it's not the last question
+        if (currentPage < (pagesCount - 1)) {
+          // setting current page
+          setState(() => currentPage = currentPage + 1);
 
-        // changing page
-        controller.jumpToPage(currentPage);
+          // changing page
+          controller.jumpToPage(currentPage);
 
-        // setting global button enable/disable
-        ref.read(isAnswerSelectedProvider.notifier).state = false;
-      } else {
-        // getting answers data
-        final TestViewSelectedAnswersDataModel selectedAnswersData =
-            calculatingAnswersDataHelper(ref);
-
-        // saving completed test details
-        final CompletedTestModel completedTestDetails =
-            saveCompletedTestDetailsHelper(ref, selectedAnswersData);
-
-        // setting completed test
-        await setCompletedTestHelper(completedTestDetails);
-
-        // moving to result page
-        if (mounted) {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => TestViewTestResultScreen(
-                selectedAnswersData: selectedAnswersData,
-                passPercentage: passPercentage,
-                completedTestDetails: completedTestDetails,
-              ),
-            ),
+          // saving question in the incomplete tests
+          final InCompleteTestsDataModel dataToSaveFoIncompleteTest =
+              InCompleteTestsDataModel(
+            testId: onGoingTest.testId,
+            testType: onGoingTest.testType,
+            testName: onGoingTest.testName,
+            totalQuestions: onGoingTest.totalQuestions,
+            testDescription: onGoingTest.testDescription,
+            isTestPremium: onGoingTest.isTestPremium,
+            testImg: onGoingTest.testImg,
+            selectedAnswers: [selectedAnswers.last],
           );
+
+          await setInCompleteTestHelper(dataToSaveFoIncompleteTest);
+
+          // disabling submit button
+          ref.read(isAnswerSelectedProvider.notifier).state = false;
+        } else {
+          // when it's the last question
+          // getting selected answers data
+          final TestViewSelectedAnswersDataModel selectedAnswersData =
+              calculatingAnswersDataHelper(ref);
+
+          // saving completed test details
+          final CompletedTestModel completedTestDetails =
+              saveCompletedTestDetailsHelper(ref, selectedAnswersData);
+
+          // setting completed test
+          await setCompletedTestHelper(completedTestDetails);
+
+          // delete test from incomplete tests list if the user completes the test
+          deleteInCompleteTestHelper(onGoingTest?.testId ?? '');
+
+          // moving to result page
+          if (mounted) {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => TestViewTestResultScreen(
+                  selectedAnswersData: selectedAnswersData,
+                  passPercentage: passPercentage,
+                  completedTestDetails: completedTestDetails,
+                ),
+              ),
+            );
+          }
         }
       }
     }

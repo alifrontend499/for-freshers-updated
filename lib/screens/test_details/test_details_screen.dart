@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 // -- packages
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:forfreshers_app/global/dialogs/continue_test_dialog.dart';
 
 // -- global
 import 'package:forfreshers_app/global/models/test_models.dart';
@@ -16,7 +17,9 @@ import 'package:forfreshers_app/global/dialogs/starting_test_over_dialog.dart';
 import 'package:forfreshers_app/screens/test_details/components/app_bar/app_bar.dart';
 import 'package:forfreshers_app/screens/test_details/styles/screen_styles.dart';
 import 'package:forfreshers_app/screens/test_details/widgets/completed_test_details_widget.dart';
+import 'package:forfreshers_app/screens/test_details/widgets/incomplete_test_details_widget.dart';
 import 'package:forfreshers_app/screens/test_details/widgets/test_all_details_widget.dart';
+import 'package:forfreshers_app/utilities/helpers/saving_tests_progress_helpers.dart';
 import 'package:forfreshers_app/utilities/helpers/tests_helpers.dart';
 
 // -- utilities
@@ -31,6 +34,8 @@ class TestDetailsScreen extends ConsumerStatefulWidget {
 
 class _TestDetailsScreenState extends ConsumerState<TestDetailsScreen> {
   bool isTestAlreadyCompleted = false;
+  bool isTestWasNotCompletedEarlier = false;
+  InCompleteTestsDataModel? inCompleteTestDetails;
   late CompletedTestModel completedTest;
 
   @override
@@ -38,6 +43,7 @@ class _TestDetailsScreenState extends ConsumerState<TestDetailsScreen> {
     super.initState();
 
     checkIfTestAlreadyCompleted();
+    checkIfTestIsIncomplete();
   }
 
   // checking if test has already been completed
@@ -47,7 +53,7 @@ class _TestDetailsScreenState extends ConsumerState<TestDetailsScreen> {
       final String onGoingTestId = onGoingTest.testId;
       final isTestExist = await checkIfCompletedTestExistHelper(onGoingTestId);
       final CompletedTestModel? completedTestRaw =
-      await getCompletedTestByIdHelper(onGoingTestId);
+          await getCompletedTestByIdHelper(onGoingTestId);
       if (isTestExist && completedTestRaw != null) {
         setState(() {
           isTestAlreadyCompleted = isTestExist;
@@ -58,6 +64,69 @@ class _TestDetailsScreenState extends ConsumerState<TestDetailsScreen> {
       setState(() {
         isTestAlreadyCompleted = false;
       });
+    }
+  }
+
+  // checking if test has already been selected by user and not completed last time
+  Future<void> checkIfTestIsIncomplete() async {
+    final TestModel? onGoingTest = ref.read(ongoingTestProvider);
+    if (onGoingTest != null) {
+      final bool isTextExist =
+          await isInCompleteTestExistHelper(onGoingTest.testId);
+      final InCompleteTestsDataModel? inCompleteTestDetailsRaw =
+          await getInCompleteTestByIdHelper(onGoingTest.testId);
+      setState(() {
+        isTestWasNotCompletedEarlier = isTextExist;
+        inCompleteTestDetails = inCompleteTestDetailsRaw;
+      });
+    } else {
+      setState(() {
+        isTestWasNotCompletedEarlier = false;
+      });
+    }
+  }
+
+  Future<void> handleTestClicked() async {
+    final TestModel? onGoingTest = ref.read(ongoingTestProvider);
+    if (isTestAlreadyCompleted) {
+      // showing dialog
+      showDialog(
+        context: context,
+        builder: (context) => StartingTestOverDialog(
+          testId: completedTest.testDetails.testId,
+        ),
+      );
+      return;
+    }
+    if (isTestWasNotCompletedEarlier &&
+        inCompleteTestDetails != null &&
+        onGoingTest != null) {
+      // showing dialog
+      showDialog(
+        context: context,
+        builder: (context) => ContinueTestDialog(
+          inCompleteTestDetails: inCompleteTestDetails!,
+          onGoingTest: onGoingTest,
+          mounted: mounted,
+        ),
+      );
+      return;
+    }
+
+    if (mounted) {
+      Navigator.pushNamed(context, testViewScreenRoute);
+    }
+  }
+
+  // func: to get button text
+  String getButtonText() {
+    // if test is already completed
+    if (isTestAlreadyCompleted) {
+      return TEST_DETAILS_SCREEN_CONSTS_SUBMIT_BTN_TEXT_START_OVER;
+    } else if (isTestWasNotCompletedEarlier) {
+      return TEST_DETAILS_SCREEN_CONSTS_SUBMIT_BTN_TEXT_CONTINUE_TEST;
+    } else {
+      return TEST_DETAILS_SCREEN_CONSTS_SUBMIT_BTN_TEXT;
     }
   }
 
@@ -97,25 +166,32 @@ class _TestDetailsScreenState extends ConsumerState<TestDetailsScreen> {
                     const SizedBox(height: 10),
                   ],
 
+                  // if test is incomplete
+                  if (isTestWasNotCompletedEarlier &&
+                      inCompleteTestDetails != null) ...[
+                    testDetailsScreenIncompleteTestDetailsWidget(
+                      context,
+                      inCompleteTestDetails!,
+                    ),
+                    const SizedBox(height: 10),
+                  ],
+
                   // child | button start test
-                  ElevatedButton(
-                    style: testDetailsSubmitBtnStyles,
-                    onPressed: () {
-                      if (isTestAlreadyCompleted) {
-                        // showing dialog
-                        showDialog(
-                          context: context,
-                          builder: (context) => StartingTestOverDialog(
-                            testId: completedTest.testId,
-                          ),
-                        );
-                      } else {
-                        Navigator.pushNamed(context, testViewScreenRoute);
-                      }
-                    },
-                    child: Text(isTestAlreadyCompleted
-                        ? TEST_DETAILS_SCREEN_CONSTS_SUBMIT_BTN_TEXT_START_OVER
-                        : TEST_DETAILS_SCREEN_CONSTS_SUBMIT_BTN_TEXT),
+                  Opacity(
+                    opacity: onGoingTest.totalQuestions == '0' ? .4 : 1,
+                    child: ElevatedButton(
+                      style: testDetailsSubmitBtnStyles,
+                      onPressed: () {
+                        if (onGoingTest.totalQuestions != '0') {
+                          handleTestClicked();
+                        }
+                      },
+                      child: Text(
+                        onGoingTest.totalQuestions == '0'
+                            ? 'No Questions'
+                            : getButtonText(),
+                      ),
+                    ),
                   ),
                   const SizedBox(height: 15),
 

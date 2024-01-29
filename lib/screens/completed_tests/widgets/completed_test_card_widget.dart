@@ -38,8 +38,9 @@ Widget completeTestsScreenCardWidget(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(20),
           border: Border.all(
-            color: Colors.grey.withOpacity(0.2),
+            color: Colors.grey.withOpacity(0.1),
           ),
+          color: appColorLightGrey,
         ),
         child: Stack(
           children: [
@@ -53,7 +54,7 @@ Widget completeTestsScreenCardWidget(
 
                 // child | description
                 Text(
-                  completedTestItem.testDescription,
+                  completedTestItem.testDetails.testDescription,
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
                 ),
@@ -78,7 +79,7 @@ Widget cardHeadingWidget(
         Expanded(
           child: Text(
             getCapitalizeTextHelper(
-              completedTestItem.testName,
+              completedTestItem.testDetails.testName,
             ),
             style: completedTestCardHeadingStyles,
           ),
@@ -100,7 +101,7 @@ Widget questionDataWidget(
       children: [
         // child | total questions
         Text(
-          "${completedTestItem.totalQuestions} Questions Total",
+          "${completedTestItem.testDetails.totalQuestions} Questions Total",
           style: completedTestCardQuestionDataTotalQuestionStyles,
         ),
         const SizedBox(width: 10),
@@ -114,7 +115,7 @@ Widget questionDataWidget(
 
         // child | wrong questions
         Text(
-          "${int.parse(completedTestItem.totalQuestions) - completedTestItem.rightAnswersCount} Wrong",
+          "${int.parse(completedTestItem.testDetails.totalQuestions) - completedTestItem.rightAnswersCount} Wrong",
           style: completedTestCardQuestionDataWrongQuestionStyles,
         ),
         const SizedBox(height: 5),

@@ -34,6 +34,7 @@ class TestViewTestScreen extends StatelessWidget {
         children: [
           // child | top part
           testViewTestScreenTopPartWidget(
+            context,
             pagesCount,
             pagesPosition,
             questionData,

@@ -44,7 +44,7 @@ class _TestViewTestResultScreenState
   Future<void> onRetryBtnPress() async {
     // deleting test from storage (completed test list)
     await deleteSingleCompletedTestHelper(
-      widget.completedTestDetails.testId,
+      widget.completedTestDetails.testDetails.testId,
     );
 
     // deleting selected answer state

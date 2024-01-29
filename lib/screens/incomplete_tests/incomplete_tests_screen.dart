@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 // -- global
 import 'package:forfreshers_app/global/models/test_models.dart';
@@ -7,24 +8,25 @@ import 'package:forfreshers_app/global/settings/app_settings.dart';
 import 'package:forfreshers_app/global/widgets/no_data_found_widget.dart';
 
 // -- screens
-import 'package:forfreshers_app/screens/completed_tests/components/app_bar/app_bar.dart';
-import 'package:forfreshers_app/screens/completed_tests/loading/completed_tests_screen_loading.dart';
-import 'package:forfreshers_app/screens/completed_tests/widgets/completed_test_card_widget.dart';
+import 'package:forfreshers_app/screens/incomplete_tests/components/app_bar/app_bar.dart';
+import 'package:forfreshers_app/screens/incomplete_tests/loading/incomplete_tests_screen_loading.dart';
+import 'package:forfreshers_app/screens/incomplete_tests/widgets/incomplete_test_card_widget.dart';
 
 // -- utilities
 import 'package:forfreshers_app/utilities/helpers/app_helpers.dart';
+import 'package:forfreshers_app/utilities/helpers/saving_tests_progress_helpers.dart';
 import 'package:forfreshers_app/utilities/helpers/tests_helpers.dart';
 
-class CompletedTestsScreen extends StatefulWidget {
-  const CompletedTestsScreen({Key? key}) : super(key: key);
+class InCompleteTestsScreen extends ConsumerStatefulWidget {
+  const InCompleteTestsScreen({Key? key}) : super(key: key);
 
   @override
-  State<CompletedTestsScreen> createState() => _CompletedTestsScreenState();
+  ConsumerState<InCompleteTestsScreen> createState() => _InCompleteTestsScreenState();
 }
 
-class _CompletedTestsScreenState extends State<CompletedTestsScreen> {
+class _InCompleteTestsScreenState extends ConsumerState<InCompleteTestsScreen> {
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
-  late Future<List<CompletedTestModel>> testsData;
+  late Future<List<InCompleteTestsDataModel>> testsData;
 
   @override
   void initState() {
@@ -35,11 +37,10 @@ class _CompletedTestsScreenState extends State<CompletedTestsScreen> {
   }
 
   // getting tests data
-  Future<List<CompletedTestModel>> getTestsData() async {
-    final List<CompletedTestModel> completedTests =
-        await getCompletedTestsHelper();
-    print('completedTests $completedTests');
-    return completedTests;
+  Future<List<InCompleteTestsDataModel>> getTestsData() async {
+    final List<InCompleteTestsDataModel> incompleteTestsList =
+        await getInCompleteTestsHelper();
+    return incompleteTestsList;
   }
 
   // on pull to refresh
@@ -64,7 +65,7 @@ class _CompletedTestsScreenState extends State<CompletedTestsScreen> {
         child: FutureBuilder(
           future: testsData,
           builder:
-              ((context, AsyncSnapshot<List<CompletedTestModel>> snapshot) {
+              ((context, AsyncSnapshot<List<InCompleteTestsDataModel>> snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
               // loading
               return ListView.builder(
@@ -76,7 +77,7 @@ class _CompletedTestsScreenState extends State<CompletedTestsScreen> {
             } else if (snapshot.connectionState == ConnectionState.done) {
               if (snapshot.hasData) {
                 // if has data
-                final List<CompletedTestModel> testsData = snapshot.data!;
+                final List<InCompleteTestsDataModel> testsData = snapshot.data!;
                 if (testsData.isNotEmpty) {
                   return RefreshIndicator(
                     onRefresh: onRefresh,
@@ -85,13 +86,14 @@ class _CompletedTestsScreenState extends State<CompletedTestsScreen> {
                       padding: appSettingsPagePadding,
                       itemCount: testsData.length,
                       itemBuilder: ((context, index) {
-                        final CompletedTestModel completedTestItem =
+                        final InCompleteTestsDataModel incompleteTestItem =
                             testsData[index];
                         return Column(
                           children: [
-                            completeTestsScreenCardWidget(
+                            incompleteTestsScreenCardWidget(
                               context,
-                              completedTestItem,
+                              incompleteTestItem,
+                              ref,
                             ),
                             const SizedBox(height: 15),
                           ],

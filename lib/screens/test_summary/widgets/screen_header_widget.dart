@@ -9,6 +9,6 @@ import 'package:forfreshers_app/screens/test_summary/styles/screen_styles.dart';
 Widget testSummaryScreenHeaderWidget(
     CompletedTestModel completedTestModal
 ) => Text(
-  completedTestModal.testName,
+  completedTestModal.testDetails.testName,
   style: testSummaryScreenAppBarTitleStyles,
 );

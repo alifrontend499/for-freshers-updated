@@ -23,7 +23,7 @@ Map<String, dynamic> convertTestsJson(Map<String, dynamic> json) {
 }
 
 Map<String, dynamic> convertQuestionDataModelJson(Map<String, dynamic> json) {
-  print('json here inside ${checkString(json['image'])}');
+  // print('json her e$json');
   final List<Map<String, dynamic>> options = [];
   json['answers'].forEach((e) => options.add(convertOptionsDataModelJson(e)));
   return {
@@ -31,7 +31,8 @@ Map<String, dynamic> convertQuestionDataModelJson(Map<String, dynamic> json) {
     'quizId': checkString(json['quiz_id']),
     'name': checkString(json['name']),
     'imgUrl': checkString(json['image']),
-    'options': options..shuffle(),
+    'options': options,
+    'myProp': 'hello',
   };
 }
 

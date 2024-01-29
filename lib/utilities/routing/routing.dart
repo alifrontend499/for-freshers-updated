@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:forfreshers_app/screens/incomplete_tests/incomplete_tests_screen.dart';
 
 // -- utilities
 import 'package:forfreshers_app/utilities/routing/routing_consts.dart';
@@ -31,6 +32,9 @@ Route<dynamic> generatedRoutes(RouteSettings settings) {
 
     case completedTestScreenRoute:
       return MaterialPageRoute(builder: (context) => const CompletedTestsScreen());
+
+    case incompleteTestScreenRoute:
+      return MaterialPageRoute(builder: (context) => const InCompleteTestsScreen());
 
     case userProfileScreenRoute:
       return MaterialPageRoute(builder: (context) => const UserProfileScreen());

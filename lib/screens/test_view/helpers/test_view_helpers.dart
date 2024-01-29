@@ -49,13 +49,15 @@ CompletedTestModel saveCompletedTestDetailsHelper(
   final List<SelectedAnswerModel> selectedAnswers =
       ref.read(selectedAnswersProvider);
   final CompletedTestModel completedTest = CompletedTestModel(
-    testId: onGoingTest!.testId,
-    testType: onGoingTest!.testType,
-    testName: onGoingTest!.testName,
-    totalQuestions: onGoingTest!.totalQuestions,
-    testDescription: onGoingTest!.testDescription,
-    isTestPremium: onGoingTest!.isTestPremium,
-    testImg: onGoingTest!.testImg,
+    testDetails: TestModel(
+      testId: onGoingTest!.testId,
+      testType: onGoingTest!.testType,
+      testName: onGoingTest!.testName,
+      totalQuestions: onGoingTest!.totalQuestions,
+      testDescription: onGoingTest!.testDescription,
+      isTestPremium: onGoingTest!.isTestPremium,
+      testImg: onGoingTest!.testImg,
+    ),
     selectedAnswers: selectedAnswers,
     completedOn: DateTime.now(),
     rightAnswersCount: selectedAnswersData.rightAnswersCount,
@@ -63,15 +65,68 @@ CompletedTestModel saveCompletedTestDetailsHelper(
   return completedTest;
 }
 
+// remove already completed tests
+List<QuestionDataModel> removeCompletedQuestions(
+  List<QuestionDataModel> allQuestionsData,
+  InCompleteTestsDataModel inCompleteTestDetails,
+) {
+  List<QuestionDataModel> questionsData = [];
+  final List<SelectedAnswerModel> selectedAnswers =
+      inCompleteTestDetails.selectedAnswers;
+  for (final questionItem in allQuestionsData) {
+    final bool isValid = selectedAnswers.any(
+      (answerItem) => answerItem.questionId == questionItem.id,
+    );
+    if (!isValid) {
+      questionsData.add(questionItem);
+    }
+  }
+  return questionsData;
+}
+
+class RemoveCompletedQuestionsModel {
+  final List<QuestionDataModel> allQuestionsData;
+  final InCompleteTestsDataModel inCompleteTestDetails;
+
+  RemoveCompletedQuestionsModel({
+    required this.allQuestionsData,
+    required this.inCompleteTestDetails,
+  });
+
+  // get questions after removing all the completed questions
+  List<QuestionDataModel> get getQuestionAfterRemovingCompletedQuestions {
+    List<QuestionDataModel> questionsData = [];
+    final List<SelectedAnswerModel> selectedAnswers =
+        inCompleteTestDetails.selectedAnswers;
+    for (final questionItem in allQuestionsData) {
+      final bool isValid = selectedAnswers.any(
+        (answerItem) => answerItem.questionId == questionItem.id,
+      );
+      if (isValid) {
+        questionsData.add(questionItem);
+      }
+    }
+    return questionsData;
+  }
+
+  // count of completed questions
+  int getCountOfCompletedQuestions() {
+    final List<QuestionDataModel> questionsData =
+        getQuestionAfterRemovingCompletedQuestions;
+    return questionsData.length;
+  }
+}
+
 // to get the widgets list to show it on the app
 List<Widget> getTestScreenWidgetsHelper(
   List<QuestionDataModel> questions,
   PageController controller,
 ) {
-  final List<QuestionDataModel> shuffledQuestions = questions..shuffle();
   List<Widget> widgetList = [];
+  // shuffling questionsData
+  // questions.shuffle();
   int index = 0;
-  for (final questionItem in shuffledQuestions) {
+  for (final questionItem in questions) {
     widgetList.add(
       TestViewTestScreen(
         pageTitle: 'Page $index',
@@ -83,5 +138,6 @@ List<Widget> getTestScreenWidgetsHelper(
     );
     index++;
   }
+
   return widgetList;
 }

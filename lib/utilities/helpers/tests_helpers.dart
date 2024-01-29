@@ -46,7 +46,7 @@ Future<bool> checkIfCompletedTestExistHelper(String testId) async {
   final isFileExist = await isCompletedTestsFileExist();
   if (isFileExist) {
     final List<CompletedTestModel> completedTests = await getCompletedTestsHelper();
-    final isThere = completedTests.where((e) => e.testId == testId);
+    final isThere = completedTests.where((e) => e.testDetails.testId == testId);
     if(isThere.isNotEmpty) {
       return true;
     }
@@ -58,7 +58,7 @@ Future<CompletedTestModel?> getCompletedTestByIdHelper(String testId) async {
   final isFileExist = await isCompletedTestsFileExist();
   if (isFileExist) {
     final List<CompletedTestModel> completedTests = await getCompletedTestsHelper();
-    final completedTestSingle = completedTests.where((e) => e.testId == testId);
+    final completedTestSingle = completedTests.where((e) => e.testDetails.testId == testId);
     if(completedTestSingle.isNotEmpty) {
       return completedTestSingle.first;
     }
@@ -108,7 +108,7 @@ Future<void> deleteSingleCompletedTestHelper(String testId) async {
   if (isFileExist) {
     String dataToSave = '';
     final List<CompletedTestModel> completedTests = await getCompletedTestsHelper();
-    final List<CompletedTestModel> otherTests = completedTests.where((e) => e.testId != testId).toList();
+    final List<CompletedTestModel> otherTests = completedTests.where((e) => e.testDetails.testId != testId).toList();
     if(otherTests.isNotEmpty) {
       dataToSave = jsonEncode(otherTests);
     } else {

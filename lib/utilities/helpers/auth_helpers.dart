@@ -3,6 +3,7 @@ import 'dart:convert';
 
 // -- packages
 import 'package:flutter/material.dart';
+import 'package:forfreshers_app/utilities/helpers/saving_tests_progress_helpers.dart';
 import 'package:forfreshers_app/utilities/helpers/tests_helpers.dart';
 
 // -- global
@@ -22,6 +23,9 @@ void appLogoutHelper(BuildContext context, bool mounted) async {
 
   // deleting completed test file
   deleteCompletedTestsFile();
+
+  // deleting completed test file
+  deleteIncompleteTestsFile();
 
   // pushing to homepage
   if (mounted) {
@@ -66,10 +70,15 @@ Future<void> setUserTokenHelper(String userToken) async {
   // setting user to shared preferences
   sharedPrefs.setString(SHARED_PREF_KEY_TO_STORE_USER_TOKEN, userToken);
 }
+
 // getter | user details
 Future<String> getUserTokenHelper() async {
   final sharedPrefs = await SharedPreferences.getInstance();
   // setting user to shared preferences
-  final userToken = sharedPrefs.getString(SHARED_PREF_KEY_TO_STORE_USER_TOKEN)!;
-  return userToken;
+  final String? userToken =
+      sharedPrefs.getString(SHARED_PREF_KEY_TO_STORE_USER_TOKEN);
+  if (userToken != null) {
+    return userToken;
+  }
+  return '';
 }

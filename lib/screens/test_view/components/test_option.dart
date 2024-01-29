@@ -31,8 +31,8 @@ class _TestViewTestScreenOptionsState extends ConsumerState<TestViewTestScreenOp
   void initState() {
     super.initState();
 
-    // setting options data
-    setState(() => optionsData = widget.questionData.options);
+    // setting options data and suffling options
+    setState(() => optionsData = widget.questionData.options..shuffle());
   }
 
   // when user selects any option
@@ -52,7 +52,7 @@ class _TestViewTestScreenOptionsState extends ConsumerState<TestViewTestScreenOp
     // setting global button enable/disable
     ref.watch(isAnswerSelectedProvider.notifier).state = true;
 
-    // setting global state for
+    // setting global state for selected answer
     updateSelectedAnswersProviderGlobalHelper(
       ref,
       SelectedAnswerModel(
